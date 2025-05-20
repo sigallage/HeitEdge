@@ -32,3 +32,11 @@ const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+app.use(checkJwt);
+app.use(require('./middlewares/userSync'));
+
+// Now all routes will have req.user available
+app.get('/api/me', (req, res) => {
+  res.json(req.user);
+});
