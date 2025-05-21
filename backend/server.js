@@ -14,6 +14,9 @@ connectDB().then(() => {
   app.use(cors())
   app.use(express.json())
 
+  //Main router
+   app.use(mainRouter)
+
   // Public route
   app.get('/', (req, res) => {
     res.send('HeritEdge Backend API')
