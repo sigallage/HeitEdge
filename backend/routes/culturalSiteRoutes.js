@@ -1,23 +1,28 @@
+// backend/routes/culturalSiteRoutes.js
 const express = require('express');
 const router = express.Router();
 const { checkJwt } = require('../middlewares/auth');
-const { requireRole } = require('../middlewares/roles');
 const {
   getCulturalSites,
   getCulturalSite,
   createCulturalSite,
   updateCulturalSite,
-  searchCulturalSites
+  deleteCulturalSite
 } = require('../controllers/culturalSiteController');
 
-// Public routes
+// GET all cultural sites
 router.get('/', getCulturalSites);
-router.get('/search', searchCulturalSites);
+
+// GET single cultural site
 router.get('/:id', getCulturalSite);
 
-// Protected routes
-router.use(checkJwt);
-router.post('/', requireRole(['contributor', 'admin']), createCulturalSite);
-router.put('/:id', requireRole(['contributor', 'admin']), updateCulturalSite);
+// POST create new cultural site (protected)
+router.post('/', checkJwt, createCulturalSite);
+
+// PUT update cultural site (protected)
+router.put('/:id', checkJwt, updateCulturalSite);
+
+// DELETE cultural site (protected)
+router.delete('/:id', checkJwt, deleteCulturalSite);
 
 module.exports = router;
